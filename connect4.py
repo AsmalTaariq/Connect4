@@ -8,6 +8,9 @@ class Connect4:
         self.win = win
         self.board = np.zeros((rows,cols))
 
+    def remaining_spaces(self):
+        return self.rows * self.cols - np.count_nonzero(self.board)
+
     def check_win(self):
         if self.vertical_check() != 0:
             return self.vertical_check()
@@ -100,21 +103,26 @@ class Connect4:
             self.board[free_row][col] = player
         return self.check_win() == player
 
+    def get_board_for_training(self):
+        return np.array([self.board])
+
     def __str__(self):
         return str(np.flip(self.board,0))
-
-
-game = Connect4()
-NUM_PLAYERS = 2
-player = 0
-while True:
-    print("BOARD:")
-    print(game)
-    col = int(input("Player " + str(player + 1) + " enter a column (zero index):"))
-    if game.make_move(col,player + 1):
-        print("Player ", player + 1, "has won")
-        break
-    player = (player + 1) % 2
-
-print("!!!GAME OVER!!!")
-print(game)
+#
+#
+# game = Connect4()
+# NUM_PLAYERS = 2
+# player = 0
+# while game.remaining_spaces() != 0:
+#     print("BOARD:")
+#     print(game)
+#     col = int(input("Player " + str(player + 1) + " enter a column (zero index):"))
+#     if game.make_move(col,player + 1):
+#         print("Player ", player + 1, "has won")
+#         break
+#     player = (player + 1) % 2
+#
+# if game.remaining_spaces() == 0:
+#     print("Drawn Game")
+# print("!!!GAME OVER!!!")
+# print(game)
